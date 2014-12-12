@@ -1,0 +1,89 @@
+CREATE TABLE IF NOT EXISTS `cliente` (
+  `cif` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `nombre` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(35) COLLATE utf8_unicode_ci NOT NULL,
+  `usuario` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`cif`),
+  UNIQUE KEY `usuario` (`usuario`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `cliente` (`cif`, `nombre`, `password`, `usuario`) VALUES
+('D657', 'OHL', 'E10ADC3949BA59ABBE56E057F20F883E', 'ohl'),
+('D777', 'GAMESA', 'E10ADC3949BA59ABBE56E057F20F883E', 'gamesa');
+
+CREATE TABLE IF NOT EXISTS `empleado` (
+  `dni` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `nombre` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `usuario` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `jefe` tinyint(1) NOT NULL,
+  PRIMARY KEY (`dni`),
+  UNIQUE KEY `usuario` (`usuario`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `empleado` (`dni`, `nombre`, `password`, `usuario`, `jefe`) VALUES
+('7487', 'juanito valderrama', 'E10ADC3949BA59ABBE56E057F20F883E', 'juan', 1),
+('4568', 'Jhon Doe', '7CF131C00A038C398CC9A6A4FA2B4F23', 'JhonDoe@test.com', 1),
+('56656', 'Pepe', 'E10ADC3949BA59ABBE56E057F20F883E', 'pepe', 0),
+('55589', 'Andres Perez', 'E10ADC3949BA59ABBE56E057F20F883E', 'andres', 0);
+
+
+CREATE TABLE IF NOT EXISTS `material` (
+  `nserie` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `tipo` int(11) NOT NULL,
+  `nombre` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `marca` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`nserie`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `material` (`nserie`, `tipo`, `nombre`, `marca`) VALUES
+('K5554', 0, 'Ordenador princial', 'HP'),
+('K6658', 0, 'Servidor', 'IBM'),
+('J9000', 1, 'impresora color', 'Epson'),
+('J9001', 1, 'impresora central', 'Cannon');
+
+
+
+CREATE TABLE IF NOT EXISTS `proyecto` (
+  `nproyecto` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `descripcion` text COLLATE utf8_unicode_ci NOT NULL,
+  `nombre` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `cliente` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `jefeproyecto` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `estado` int(11) NOT NULL,
+  PRIMARY KEY (`nproyecto`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+INSERT INTO `proyecto` (`nproyecto`, `descripcion`, `nombre`, `cliente`, `jefeproyecto`, `estado`) VALUES
+('ohl1', 'Dique de poniente', 'puerto', 'D657', '4568', 1),
+('ohl2', 'Luces de pista', 'aeropuerto', 'D657', '4568', 1),
+('ohl3', 'Asfaltado rodaduras', 'aeropuerto', 'D657', '7487', 2),
+('Gam1', 'Nuevos aerogeneradores', 'Eolico1', 'D777', '4568', 2);
+
+
+CREATE TABLE IF NOT EXISTS `recursoasignado` (
+  `nrecurso` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `nproyecto` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `tipo` int(11) NOT NULL,
+  PRIMARY KEY (`nrecurso`,`nproyecto`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+INSERT INTO `recursoasignado` (`nrecurso`, `nproyecto`, `tipo`) VALUES
+('K5554', 'ohl1', 0),
+('J9001', 'ohl1', 0),
+('56656', 'ohl1', 1),
+('K5554', 'Gam1', 0),
+('55589', 'ohl1', 1),
+('J9000', 'ohl1', 0),
+('56656', 'ohl2', 1),
+('55589', 'Gam1', 1),
+('K5554', 'ohl3', 0),
+('56656', 'ohl3', 1),
+('K5554', 'ohl2', 0),
+('K6658', 'ohl2', 0);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
